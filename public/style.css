@@ -1,0 +1,111 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Verdana", sans-serif;
+    line-height: 1.4;
+    font-size: 16px;
+    background-color: #B9BABD;
+    color: black;
+    margin: 0 auto;
+    max-width: 470px;
+    padding: 0 10px 10px;     
+}
+
+h1{font-size:24px;margin-top:1em;}
+h2{font-size:21px;margin-top:1em;}
+h3{font-size:18px;margin-top:1em;}
+
+blockquote {
+    border-left: 4px solid purple;
+    margin: 2em 0 2em 2em;
+    padding-left: 8px;
+    margin-left: 0;
+}
+blockquote p {
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+img {
+    max-width: 100%;
+}
+pre {
+    border: 1px solid;
+    overflow: auto;
+    padding: 5px;
+}
+table {
+    text-align: left;
+    width: 100%;
+}
+nav {
+  border-bottom: solid #8D8C90;
+  padding: 10px 0;
+}
+nav a:last-of-type {
+  float: right;
+}
+#menu,
+.posts {
+    list-style: none;
+    padding: 0;
+}
+.posts li {
+    margin-bottom: 8px;
+}
+.posts li span {
+    display: block;
+    font-size: 90%;
+}
+#menu li {
+    display: inline-block;
+    margin-right: 8px;
+}
+figure {
+  margin: 3em 0;
+}
+figure img {
+  width: 100%;
+}
+figcaption {
+    font-size: 90%;
+}
+footer {
+  border-top: solid #8D8C90;
+  margin: 2em 0;
+}
+.footnotes {
+    font-size: 90%;
+}
+code {
+    font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+    font-size: 12px;
+    background-color: #464646;
+    color: #dcdcdc;
+    padding: 0.1rem;
+}
+pre:has(code) {
+    font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+    font-size: 12px;
+    background-color: #464646;
+    color: #dcdcdc;
+    padding: 0.5rem;
+    border: none;
+    overflow-x: auto;
+}
+
+a, a:hover, a:visited, a:active {
+    color: #88006E;
+}
+
+kbd {
+    padding-left:.25rem;
+    padding-right:.25rem;
+    font-family:sans-serif;
+    border:solid 1px #121212;
+    border-radius:4px;
+    background-color:#f0f0f0;
+    box-shadow:1px 1px #121212;
+}
