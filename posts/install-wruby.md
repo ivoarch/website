@@ -24,7 +24,7 @@ El post será acerca de cómo he configurado y alojado mi sitio con la ayuda de 
 
 Segun el [README](https://git.sr.ht/~bt/wruby/tree/master/item/README.md), wruby se basa en Ruby 3.3.3 
 
-> 💡 **Aviso** 
+> **⚠️ Aviso** 
 >
 > Si tenemos otras versiones instaladas, es mejor usar `rbenv` o `rvm` para evitar conflictos de privilegios).
 
@@ -113,6 +113,7 @@ nano fisrt-post.md
 Con el seguiente contenido
 
 ~~~sh
+
 # Primer post
 
 2024-11-26

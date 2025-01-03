@@ -7,7 +7,7 @@ Esta es una guía completa para configurar un Servidor Privado Virtual (VPS) en 
 
 El post cubre todo, desde la creación de un servidor, la configuración del acceso SSH, la configuración de cortafuegos, la gestión de usuarios y tambien aplicar medidas para garantizar la seguridad y estabilidad del servidor .
 
-> **💡Aviso** 
+> **⚠️ Aviso**
 >
 > Para esta guia usaremos un servidor con Ubuntu 24.04 LTS.
 

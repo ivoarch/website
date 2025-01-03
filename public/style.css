@@ -18,15 +18,15 @@ h2{font-size:21px;margin-top:1em;}
 h3{font-size:18px;margin-top:1em;}
 
 blockquote {
-    border-left: 4px solid purple;
-    margin: 2em 0 2em 2em;
-    padding-left: 8px;
-    margin-left: 0;
+    background-color: #F4E0AF;
+    border: 1px solid #665;
+    margin: 1em 0;
+    padding: 0 1em;
 }
 blockquote p {
     font-style: normal;
     margin: 0;
-    padding: 0;
+    padding: 5px;
 }
 img {
     max-width: 100%;
