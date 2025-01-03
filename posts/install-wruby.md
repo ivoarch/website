@@ -73,16 +73,13 @@ cd wruby
 rm -rf .git
 ~~~
 
-Instalamos el resto de dependencias.
+Instalamos el resto de dependencias, y compilamos.
 
 ~~~sh
 mv wruby website
-cd blog
+cd website
 sudo gem install 'find' 'yaml' 'fileutils' 'date' 'rss:0.3.0' 'kramdown:2.4.0'
-~~~
-
-~~~sh
-sudo make build
+make build
 ~~~
 
 ## Configuraciones
@@ -124,7 +121,7 @@ Hola mundo!
 Recreamos el sitio web de nuevo para aplicar los cambios .
 
 ~~~sh
-sudo make build
+make build
 ~~~
 
 Felicidades, ya hemos creado noestro blog y noestro primer post!
