@@ -2,7 +2,7 @@
 
 ## Nuevos proyectos
 
-- [website](https://git.ivaylokuzev.eu/website/) - Mi sitio web personal
+- [website](https://github.com/ivoarch/website/) - Mi sitio web personal
 
 ## Algunos proyectos abandonados o no tan activos
 
