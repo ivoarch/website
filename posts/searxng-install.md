@@ -23,7 +23,6 @@ Pero tranquilo, si no tienes un servidor puedes usar alguna de las [instancias p
 - **Servidor** (en mi caso Ubuntu 24.04 LTS)
 - **Docker** [instalar](https://docs.docker.com/engine/install/ubuntu/#installation-methods)
 - **Caddy**  [instalar](https://caddyserver.com/docs/install#debian-ubuntu-raspbian)
-- **Authentik** [instalar](https://docs.goauthentik.io/docs/install-config/install/docker-compose?utm_source=github)
 - **Tu propio dominio** 
 
 ### Docker compose archivo
@@ -107,7 +106,7 @@ Añadimos esta linia.
 SEARXNG_HOSTNAME=search.domain.com
 ~~~
 
-Instalamos Searxng.
+Instalamos el contenedor:
 
 ~~~sh
 docker compose up -d
@@ -324,21 +323,11 @@ sudo nano /etc/Caddyfile
 
 > **⚠️ Aviso**
 >
-> Cambiar search.domain.com y authentik.domain.com
-> con noestro dominio. Tambien server-ip, con el IP del servidor que usamos.
+> Cambiar `search.domain.com` con el nombre
+> de noestro dominio. Tambien `server-ip`, con el IP del servidor que usamos.
 
 ~~~sh
-(authenticate) {
-        reverse_proxy /outpost.goauthentik.io/* http://authentik.domain.com:9000
-        forward_auth http://authentik.domain.com:9000 {
-                uri /outpost.goauthentik.io/auth/caddy
-                copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
-                trusted_proxies private_ranges
-        }
-}
-
 search.domain.com {
-    import authenticate
     reverse_proxy server-ip:8080
 }
 ~~~
@@ -349,26 +338,47 @@ Reiniciamos Caddy.
 sudo systemctl restart caddy
 ~~~
 
-### Authentik
+### Iniciar SearXNG
 
-> **⚠️ Aviso** 
+Abrir desde el navegador `https://search.domain.com` .
+
+![](/public/images/IMG_20250111_183632.jpg)
+
+### Proteger SearXNG
+
+Si no queremos que noestra instancia de Searxng sea publica y todo el mundo tenga acceso, podemos proteger la .
+La manera mas facil es usando Caddy y [basic_auth](https://caddyserver.com/docs/caddyfile/directives/basic_auth) .
+
+Ejemplo `Caddyfile`:
+
+~~~sh
+# Setup basic authentication
+(basic-auth) {
+  basicauth {
+    <username> <hashed password>
+  }
+}
+
+search.domain.com {
+    import basic-auth
+    reverse_proxy server-ip:8080
+}
+~~~
+
+Tenemos que poner un nombre de usuario donde `<username>` y una contraseña donde `<contraseña>` .
+
+> **⚠️ Aviso**
 >
-> Cambiar search.domain.com con el nombre de noestro dominio!
+> La contraseña tiene que ser en formato `hash` y no en texto plano .
 
-Vamos a la opcion - "**Add Providor**", hacemos click en "**Proxy Providor**" .
+Exemplo:
 
-![](/public/images/eb5d6003.jpeg)
+El hash de la contraseña `searxngcontraseña`
 
-Configuramos de este modo, ver imagen abajo.
 
-![](/public/images/c67f0179.jpeg)
+~~~sh
+caddy hash-password searxngcontraseña
+~~~
 
-Luego vamos a "**Add Application**" y configuramos asi , ver imagen.
+Mas info [caddy hash-password](https://caddyserver.com/docs/command-line#caddy-hash-password).
 
-![](/public/images/7d73809d.jpeg)
-
-## Resultado Final
-
-![](/public/images/6f353a70.jpeg)
-
-![](/public/images/6b91f267.jpeg)

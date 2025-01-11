@@ -41,13 +41,13 @@ ssh-keygen -t ed25519
 
 ![](/public/images/c359eccc.jpeg)
 
-Para ver la llave publica que hemos creado ejecutamos el siguente comando .
+Para ver la llave publica que hemos creado ejecutamos el siguente comando:
 
 ~~~sh
 cat ~/.ssh/ed25519.pub
 ~~~
 
-Copiamos el contenido de la clave publica,  añadiremos y guardamos .
+Copiamos el contenido de la clave publica, añadimos y guardamos .
 
 ### Conectamos al servidor via SSH
 
@@ -59,19 +59,19 @@ Nos va a pedir la contraseña para la llave que hemos creado .
 
 ### Actualizar el servidor
 
-Ejecutamos siguentes comandos .
+Ejecutamos siguentes comandos:
 
 ~~~sh
-apt update && apt upgrade -y
+apt update && apt upgrade
 ~~~
 
 ## Medidas de seguridad
 
-En este apartado trataremos de configurar las medidas de seguridad para que el servidor sea lo mas seguro posible .
+En este apartado trataremos de configurar las medidas de seguridad para que el servidor sea lo mas seguro posible:
 
 ### Asegurar acceso al servidor con SSH
 
-Para ello, modificanos el archivo de configuración del servicio con un editor de texto de su elección (`nano` utilizado en este ejemplo):
+Para ello, modificamos el archivo de configuración del servicio con un editor de texto de su elección (`nano` utilizado en este ejemplo):
 
 ~~~sh
 nano /etc/ssh/sshd_config
@@ -86,71 +86,11 @@ Encontramos la linia "**PermitRootLogin**" y cambiamos a "**no**" .
 Encontramos la linia  "**PasswordAuthentication**" y cambiamos a "**no**" . 
 Tambien como en noestro caso vamos a utilizar llave publica para conectar, tenemos que buscar la linia "**PubkeyAuthentication**" y cambiar la a "**yes**" .
 
-### Cambiar el puerto por defecto de SSH
-
-Una de las primeras cosas que debe hacer en su servidor es configurar el puerto de escucha del servicio SSH. Por defecto está configurado en el puerto 22, por lo que la mayoria de los intentos por parte de bots se dirigirán a este puerto. Modificar esta configuración utilizando un puerto diferente es una medida sencilla para endurecer el servidor contra ataques automatizados.
-
-Encuentra la línea donde "**Port 22**", sustituya el número 22 por el número de puerto de su elección y guardamos .
-
-> **⚠️ Aviso**
->
-> No introduzca un número de puerto ya utilizado en su sistema. Para mayor seguridad, utilice un número comprendido entre 49152 y 65535.
-
-Para comprobar si un puerto esta ocupado por otro servicio puede usar el seguiente comando .
-
-~~~sh
-netstat -tulpn | grep LISTEN
-~~~
-
-Al final debera quedar de esta manera .
-
-~~~sh
-Port 65535
-PermitRootLogin no
-PubkeyAuthentication yes
-PasswordAuthentication no
-~~~
-
-### Reiniciar el servicio
-Ahora tenemos que reiniciar el servicio, pero antes des esto en noestro caso utilizamos un servidor con Ubuntu 24.04 lts y necesitaremos un paso adicional .
-Desde la version de Ubuntu 23.04 ssh es ahora gestionado por el archivo `ssh.socket`. Por esto si ahora reiniciamos el servicio ssh quedara en escucha de puerto 22 sin cambiarse . Para poder solucionar esto debemos que editar un archivo mas .
-
-Ejecutamos el seguiente comando .
-
-~~~sh
-nano /lib/systemd/system/ssh.socket
-~~~
-
-Buscamos las lineas donde `Listenstream` y remplezamos 22 por el puerto elegido (en noestro caso hemos elegido puerto 65535) y guardamos .
-
-Debera quedar asi:
-
-~~~sh
-[Socket]
-ListenStream=0.0.0.0:65535
-ListenStream=[::]:65535
-BindIPv6Only=ipv6-only
-Accept=no
-FreeBind=yes
-~~~
-
-Una vez echo esto ya podemos reiniciar el servicio.
+### Reiniciar el servicio SSH
 
 ~~~sh
 systemctl daemon-reload
-systemctl restart ssh.socket
 systemctl restart ssh.service
-~~~
-
-Para comprobar si se han aplicado los cambios corectamente ejecuta :
-
-~~~sh
-systemctl status ssh | grep 'listening'
-~~~
-
-~~~sh
-Dec 21 08:38:32 ubuntu-8gb-fsn1-1 sshd[764617]: Server listening on 0.0.0.0 port 65535.
-Dec 21 08:38:32 ubuntu-8gb-fsn1-1 sshd[764617]: Server listening on :: port 65535.
 ~~~
 
 ### Crear un usuario no root con privilegios sudo
@@ -162,19 +102,20 @@ adduser <username>
 usermod -aG sudo <username>
 ~~~
 
-Creamos el directorio para ssh y el archivo authorized_keys donde vamos a copiar noestra clave publica .
+Creamos el directorio para ssh en el `$HOME` del nuevo usuario y el archivo `authorized_keys` donde vamos a copiar noestra clave publica .
 
 ~~~sh
+su -l <username>
 mkdir ~/.ssh
 nano ~/.ssh/authorized_keys
 ~~~
 
 A partir de ahora vamos a conectarnos con el usuario que hemos creado y dejaremos de hacer lo con "root" .
 
-Para aceder al servidor, ejecutamos .
+Para aceder al servidor, ejecutamos.
 
 ~~~sh
-ssh -p 65535 <username>@<server-ip>
+ssh <username>@<server-ip>
 ~~~
 
 ### Configurar cortafuegos
@@ -197,16 +138,10 @@ Ejecute este comando:
 sudo ufw default allow outgoing
 ~~~
 
-Ahora, tenemos que permitir nuestro puerto SSH para poder iniciar sesión en nuestro servidor .
+Permitir el acceso por SSH, puerto (22):
 
 ~~~sh
-sudo ufw allow 65535/tcp
-~~~
-
-Desactivar default port 22 de las reglas de Ufw
-
-~~~sh
-sudo ufw delete allow OpenSSH
+sudo ufw allow “OpenSSH”
 ~~~
 
 Por ultimo, iniciamos el cortafuegos con las reglas que hemos creado .
@@ -215,7 +150,7 @@ Por ultimo, iniciamos el cortafuegos con las reglas que hemos creado .
 sudo ufw enable
 ~~~
 
-Para ver las reglas que hemos creado .
+Para ver las reglas que hemos creado:
 
 ~~~sh
 sudo ufw status verbose
@@ -229,8 +164,8 @@ New profiles: skip
 
 To                         Action      From
 --                         ------      ----
-65535/tcp                  ALLOW IN    Anywhere
-65535/tcp (v6)             ALLOW IN    Anywhere (v6)
+OpenSSH/tcp                ALLOW IN    Anywhere
+OpenSSH/tcp (v6)           ALLOW IN    Anywhere (v6)
 ~~~
 
 ### Instalar y configurar Fail2ban
@@ -243,7 +178,7 @@ Ejecutamos:
 sudo apt install fail2ban
 ~~~
 
-Ahora configuramos las reglas .
+Ahora configuramos las reglas:
 
 ~~~sh
 sudo nano /etc/fail2ban/jail.local
@@ -261,7 +196,7 @@ banaction = ufw
 
 [sshd]
 enabled = true
-port    = 65535
+port    = ssh
 ~~~
 
 Una vez configurado el archivo, tenemos que habilitar el servicio para que ejecute cada vez que reiniciamos el servidor .

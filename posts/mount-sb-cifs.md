@@ -2,7 +2,7 @@
 
 2024-7-10
 
-Estoy usando un VPS con [Hetzner](https://www.hetzner.com/), para varios proyectos como por ejemplo alojar mi blog.
+Estoy usando un VPS con [Hetzner](https://www.hetzner.com/), para varios proyectos como por ejemplo alojar mi web.
 Puesto que necesito mas espacio, he decidido contratar el servicio de [storagebox](https://www.hetzner.com/storage/storage-box/) para ampliar el espacio en servidor, montado como espacio adicional .
 
 Los pasos para seguir.
@@ -22,7 +22,7 @@ Creamos el directorio donde vamos a montar lo.
 sudo mkdir -p /mnt/pve/sb
 ~~~
 
-Montamos con encriptación usando `seal`, ejecutando .
+Montamos con encriptación usando la opcion `seal`, ejecutando .
 
 ~~~sh
 sudo mount.cifs -o seal,vers=3,uid=1000,gid=1000,user=uxxxxxx,pass=contraseña //uxxxxxx.your-storagebox.de/backup /mnt/pve/sb

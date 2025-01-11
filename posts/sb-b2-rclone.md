@@ -6,7 +6,7 @@
 >
 > `/mnt/pve/sb` es el directorio donde tengo montado storagebox en mi servidor y estoy usando como espacio adicional para hacer copias de seguridad, y nube para guardar algunos archivos.
 
-Ver mi [post](https://blog.ivaylokuzev.eu/posts/mount-sb-cifs/) sobre, como he montado el storagebox en mi servidor .
+Ver mi [post](https://ivaylokuzev.eu/posts/mount-sb-cifs/) sobre, como he montado el storagebox en mi servidor .
 
 ## Instalar rclone
 

@@ -12,7 +12,7 @@ La misma cartera ya no se vende en Amazon, tampoco encuentro alguna web de la ma
 
 ## Movil
 
-El movil que uso es un **Google Pixel 6 Pro** instalado por mi con [GrapheneOS](https://grapheneos.org/) (el sistema operativo mas seguro para moviles). Puede ver mi configuracion y las apps que uso [aqui](https://ivaylo.mataroa.blog/blog/mi-configuracion-de-grapheneos/). 
+El movil que uso es un **Google Pixel 6 Pro** instalado por mi con [GrapheneOS](https://grapheneos.org/) (el sistema operativo mas seguro para moviles). Puede ver mi configuracion y las apps que uso [aqui](https://ivaylokuzev.eu/posts/gos-setup/) 
 No me gustan las fundas, asi que uso el movil tal qual sin proteccion ninguna.
 
 ## Llave de seguridad
